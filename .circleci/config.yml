@@ -1,0 +1,38 @@
+version: 2.1
+
+jobs:
+  
+  build:
+    docker:
+      - image: cimg/base:2021.04
+    steps:
+      - run:
+          name: The is the build job
+          command: echo 'Under construction'
+  
+  test:
+    docker:
+      - image: cimg/node:18.7.0
+    steps:
+      - run:
+          name: The is the test job
+          command: echo 'Testing, testing'
+            
+  deploy:
+    docker:
+      - image: cimg/aws:2022.06
+    steps:
+      - run:
+          name: This is the deploy job
+          command: echo 'We have lift-off!'   
+
+workflows:
+  build-test-deploy:
+    jobs:
+      - build
+      - test: 
+          requires:
+            - build
+      - deploy:
+          requires:
+            - test
